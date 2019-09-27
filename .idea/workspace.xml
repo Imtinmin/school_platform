@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="569980c4-8bf1-405b-926d-1f0469d9ccc0" name="Default Changelist" comment="" />
+    <list default="true" id="569980c4-8bf1-405b-926d-1f0469d9ccc0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/AdminCheck.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2019_09_25_010238_add_cloumn_categoryname_to_challenges.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2019_09_25_011829_add_column_categoryid_to_challenges.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2019_09_25_164027_create_course_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_ide_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/_ide_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Bulletin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Bulletin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Challenge.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Challenge.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Course.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BulletinController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BulletinController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChallengeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChallengeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CourseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/EnableCrossRequestMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/EnableCrossRequestMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/APIReturnService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/APIReturnService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_20_133914_add_column_level_to_challenges.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +34,9 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpServers">
     <servers>
@@ -121,7 +145,11 @@
   </component>
   <component name="PhpXdebugProxy" ide_key="PHPSTORM" host="localhost" />
   <component name="ProjectId" id="1QxELeF4a8b2F9DiEx1qgZvmuvv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Constants" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -146,18 +174,27 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="PHP Web Page.Unnamed">
+  <component name="RunManager" selected="PHP Script.Level.php">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Level.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/app/Level.php">
       <method v="2" />
     </configuration>
     <configuration name="Unnamed" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" nameIsGenerated="true" server_name="laravel">
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="PHP Script.Level.php" />
       <item itemvalue="PHP Web Page.Unnamed" />
       <item itemvalue="PHPUnit.phpunit.xml" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.Level.php" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -181,11 +218,43 @@
       <workItem from="1568937424141" duration="20844000" />
       <workItem from="1569029830652" duration="2548000" />
       <workItem from="1569042267354" duration="13227000" />
+      <workItem from="1569057943516" duration="171000" />
+      <workItem from="1569078148969" duration="2358000" />
+      <workItem from="1569143929355" duration="408000" />
+      <workItem from="1569165040390" duration="604000" />
+      <workItem from="1569214894742" duration="5882000" />
+      <workItem from="1569245376774" duration="7754000" />
+      <workItem from="1569287626723" duration="2900000" />
+      <workItem from="1569292224315" duration="2095000" />
+      <workItem from="1569296497835" duration="11764000" />
+      <workItem from="1569371273773" duration="4584000" />
+      <workItem from="1569386745841" duration="5409000" />
+      <workItem from="1569470657720" duration="599000" />
+      <workItem from="1569482140650" duration="2099000" />
+      <workItem from="1569494502285" duration="83000" />
+      <workItem from="1569507340803" duration="6509000" />
+      <workItem from="1569557441728" duration="4660000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

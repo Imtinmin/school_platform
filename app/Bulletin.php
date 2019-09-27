@@ -9,8 +9,8 @@ class Bulletin extends Model
     //
     protected $primaryKey = 'bulletin_id';
 
-    protected $fillable = [
+    /*protected $fillable = [
         'bulletin_content',   //可控写入
-    ];
+    ];*/
 
 }

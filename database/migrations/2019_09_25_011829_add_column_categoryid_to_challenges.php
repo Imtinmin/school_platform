@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnLevelToChallenges extends Migration
+class AddColumnCategoryidToChallenges extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddColumnLevelToChallenges extends Migration
     {
         Schema::table('challenges', function (Blueprint $table) {
             //
-            $table->integer('level_id');
+            $table->integer('category_id');
         });
     }
 

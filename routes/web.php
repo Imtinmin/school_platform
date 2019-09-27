@@ -23,22 +23,32 @@ Route::prefix('API')->group(function () {
     Route::prefix('user')->group(function (){
         Route::post('login','UserController@login')->name('UserLogin');
         Route::post('register','UserController@register')->name('UserRegister');
-        Route::get('token/{token}','UserController@tokenVerify')->name('tokenVerify');
+        //Route::get('token/{token}','UserController@tokenVerify')->name('tokenVerify');
+        Route::get('rank','UserController@getRanking')->name('UserRank');
 
-        Route::group(['middleware' => 'api'], function () {
-            Route::get('logout','UserController@logout')->name('UserLogout');
-            Route::get('getAuthInfo','UserController@getAuthInfo')->name('UserInfo');
+        /*
+         * 需要jwt-token
+         */
+        Route::group(['middleware' => 'jwt.auth'], function () {
+            //Route::get('logout','UserController@logout')->name('UserLogout');
+            Route::get('profile','UserController@getAuthInfo')->name('UserInfo');
+            Route::post('password/reset','UserController@resetPassword')->name('ResetPassword');
+            Route::get('select','UserController@SelectUser')->name('SelectUser');
         });
 
     });
+
     /*
      * Challenge
      */
-    Route::prefix('challenge')->group(function (){
-        Route::post('create','ChallengeController@create')->name('ChallengeCreate');
-        Route::get('list','ChallengeController@list')->name('ChallengeList');
-        Route::get('category','ChallengeController@category')->name('ChallengeCategory');
+    Route::group(['middleware' => 'jwt.auth'], function () {
+        Route::prefix('challenge')->group(function () {
+            Route::post('create', 'ChallengeController@create')->name('ChallengeCreate')->middleware('jwt.admin');
+            Route::get('list', 'ChallengeController@list')->name('ChallengeList');
+            Route::get('category', 'ChallengeController@category')->name('ChallengeCategory');
+        });
     });
+
     /*
      * Category 题目类型
      */
@@ -54,6 +64,11 @@ Route::prefix('API')->group(function () {
         Route::post('add','BulletinController@add')->name('AddBulletin');
         Route::post('del','BulletinController@del')->name('DElBulletin');
         Route::get('list','BulletinController@list')->name('BulletinList');
+    });
+
+
+    Route::prefix('admin')->group(function () {
+        Route::post('','Controller@update')->name('UpdateAdmin');
     });
 });
 

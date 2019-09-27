@@ -31,16 +31,17 @@ class CategoryController extends Controller
                 'category_name.unique' => '类型字段已存在',
             ]);
         if($validator->fails()){
-            return APIReturn::fail($validator->errors()->all());
+            return APIReturn::error($validator->errors()->all(),"invalid_parameters");
         }
         try{
-            $this->category->create([
-                'category_name' => $request->input('category_name'),
-            ]);
+            $category = new Category();
+            $category->category_name = $request->input('category_name');
+            $category->save();
+
         }catch (\Exception $err){
-            return APIReturn::fail('database_error');
+            return APIReturn::error('database_error');
         }
-        return APIReturn::success($request->only('category_name'),'add_success');
+        return APIReturn::success($category);
     }
 
     /**
@@ -55,13 +56,13 @@ class CategoryController extends Controller
             'category_id.required' => '类型编号错误'
         ]);
         if($validator->fails()){
-            return APIReturn::fail($validator->errors()->all());
+            return APIReturn::error($validator->errors()->all());
         }
         $this->category->destroy($request->input('category_id'));
         try{
             $this->category::where('category_id', $request->input('category_id'))->delete();
         }catch (\Exception $err){
-            return APIReturn::fail('database_error');
+            return APIReturn::error('database_error');
 
         }
         return APIReturn::success();
@@ -76,9 +77,7 @@ class CategoryController extends Controller
     public function edit(Request $request){
         $validator = \Validator::make($request->all(),[
             'category_name' => 'required|unique:categories',
-            'category_id' => 'required'
         ],[
-            'category_id.required' => '类型 ',
             'category_name.required' => '类型字段不能为空',
             'category_name.unique' => '类型字段已存在',
         ]);
@@ -93,16 +92,13 @@ class CategoryController extends Controller
      */
     public function list(Request $request){
         try{
-            $allCategory = $this->category::all();
+            $CategoryList = $this->category::with('challenges')->get();
+            $CategoryList->makeHidden(['updated_at','created_at']);
         }catch (\Exception $err){
-            return APIReturn::fail('database_error');
+            return APIReturn::error('database_error');
         }
 
-        $list = [];
-        foreach ($allCategory as $category){
-            array_push($list,$category->category_name);
-        }
-        return APIReturn::success($list);
+        return APIReturn::success($CategoryList);
     }
 
 

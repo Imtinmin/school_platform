@@ -36,7 +36,7 @@ class APIReturnService {
      * @param null $redirect
      * @return \Illuminate\Http\JsonResponse
      */
-    public function success($data=[], $msg="success", $httpCode=200, $redirect=null){
+    public function success($data=[],$msg="success", $httpCode=200, $redirect=null){
         return $this->APIReturn($data,$msg,$httpCode,$redirect);
     }
 
@@ -47,7 +47,7 @@ class APIReturnService {
      * @param null $redirect
      * @return \Illuminate\Http\JsonResponse
      */
-    public function error($data=[], $msg='error', $httpCode=500, $redirect=null){
+    public function error($msg='error',$httpCode=500,$data=[],$redirect=null){
         return $this->APIReturn($data,$msg,$httpCode,$redirect);
     }
 }

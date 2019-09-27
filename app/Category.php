@@ -10,14 +10,12 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $primaryKey = 'category_id';
-    /*public function __construct()
+
+
+    public function challenges()
     {
-
-    }*/
-
-    protected $fillable = [
-        'category_name',   //可控写入
-    ];
-
+        return $this->hasMany('App\Challenge', 'category_id');
+    }
 
 }
+

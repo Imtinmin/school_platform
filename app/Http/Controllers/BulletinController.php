@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bulletin;
+use App\User;
 
 class BulletinController extends Controller
 {
@@ -16,7 +17,11 @@ class BulletinController extends Controller
     }
 
     public function add(Request $request){
+        try{
 
+        }catch (\Exception $err){
+
+        }
     }
 
     public function del(Request $request){

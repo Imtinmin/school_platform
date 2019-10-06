@@ -3,8 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+use APIReturn;
 
-class AdminCheck
+class AdminCheck extends BaseMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,7 +17,13 @@ class AdminCheck
      */
     public function handle($request, Closure $next)
     {
+        //$token = $this->auth->setRequest($request)->getToken();
 
-        return $next($request);
+        $user= $this->auth->parseToken()->authenticate();
+        if($user->admin){
+            return $next($request);
+        }
+
+        return \APIReturn::error("Permission denied",403);
     }
 }

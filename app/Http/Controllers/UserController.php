@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;  //时间包
 use Auth;
 use App\User;
+use App\Ctfachieve;
 use Illuminate\Support\Facades\Hash;
 use APIReturn;
 use JWTAuth;
@@ -95,8 +96,11 @@ class UserController extends Controller
             return  APIReturn::error($validator->errors()->all());
         }
         if(Auth::once($credentials)){
-            $this->user->where('email',$request->input('email'))->update(['lastLoginTime' => Carbon::now('Asia/Shanghai')]);   //更新登录时间
             $user = Auth::getUser();
+            if($user->banned){
+                return APIReturn::error("你的账号被封了,请联系管理员");
+            }
+            $this->user->where('email',$request->input('email'))->update(['lastLoginTime' => Carbon::now('Asia/Shanghai')]);   //更新登录时间
             $access_token = JWTAuth::fromUser($user,['is_admin' => $user->admin]);
             return APIReturn::success(['access_token' => $access_token ],'login_success',200);
         }else{
@@ -116,7 +120,7 @@ class UserController extends Controller
             //echo ($user->name);  //name
             return APIReturn::success($user);
         }catch (JWTException $err){
-            return APIReturn::error('token_invalid');
+            return APIReturn::error('token_invalid',401);
         }
     }
 
@@ -136,17 +140,31 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse|void
      */
     public function getRanking(Request $request){
-        try {
-            $result = User::where([['admin', '0'], ['banned', '0']])->orderBy('score')->get();
-            $result->makeHidden(['token', 'admin', 'banned', 'lastLoginTime', 'signUpTime', 'email']);
 
-        }catch(\Exception $err){
-            return APIReturn::error('database_error');
+        $page = $request->input('page') ?? 1;
+        try {
+            //$result = User::where([['admin', '0'], ['banned', '0']])->orderBy('score','desc')->get();
+            $result = User::where([['admin', '0'], ['banned', '0']])->orderBy('score','desc')->skip(($page-1)*10)->take(10)->get();
+            $result->makeHidden(['token', 'admin', 'banned', 'lastLoginTime', 'signUpTime', 'email']);
+            $total = User::where([['admin', '0'], ['banned', '0']])->count();
+            } catch (\Exception $err) {
+                echo $err;
+                return APIReturn::error('database_error');
+            }
+            return APIReturn::success(['total' => $total,'ranking' => $result]);
         }
-        return APIReturn::success($result);
+
+
+    public function UserList(){
+        try{
+            $UserList = User::all();
+            return APIReturn::success($UserList);
+        }catch (\Exception $err){
+            return APIReturn::error("database_error");
+        }
+
 
     }
-
 
     /**
      * 修改密码
@@ -180,15 +198,20 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * 查看他人信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function SelectUser(Request $request){
+        $validator = \Validator::make($request->only('user_id'),[
+            'user_id' => 'required|numeric',
+        ]);
+        if($validator->fails()){
+            //var_dump($validator->errors());
+            return APIReturn::error("Error");
+        }
         try{
-            $validator = \Validator::make($request->only('user_id'),[
-                'user_id' => 'required|numeric',
-            ]);
-            if($validator->fails()){
-                var_dump($validator->errors());
-                return APIReturn::error("Error");
-            }
             $UnShowUser = User::where('admin',1)->get();
             foreach ($UnShowUser as $usu){
                 if($request->input('user_id') == $usu["user_id"]){
@@ -197,12 +220,120 @@ class UserController extends Controller
             }
 
             $user_id = $request->input('user_id');
-            $user = User::find($user_id);
-            $data = ["name" => $user->name,"email" => $user->email,"score" => $user->score,];
+            //$user = User::find($user_id);
+            $user = User::where('user_id',$user_id)->get()->first();
+            //echo $user->challenges;
+            $solvedChallenges = $user->challenges->makeHidden(['description','category_id','qid','laravel_through_key','url']);
+            $data = ["name" => $user->name,"email" => $user->email,"score" => $user->score,'SolvedChallenges' => $solvedChallenges, "lastLoginTime" => $user->lastLoginTime];
             return APIReturn::success($data);
         }catch (\Exception $e){
-            return APIReturn::error($e);
+            //echo $e;
+            return APIReturn::error("用户不存在");
         }
     }
 
+    /**
+     * 升级管理员
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function UpdateAdmin(Request $request){
+        $validator = \Validator::make($request->only('user_id'),[
+            'user_id' => 'required|numeric',
+        ]);
+        if($validator->fails()){
+            //var_dump($validator->errors());
+            return APIReturn::error("Error");
+        }
+        try{
+            $user = User::where('user_id',$request->input('user_id'))
+                ->update(['admin' => 1]);
+            return APIReturn::success($user,'操作成功');
+        }catch (\Exception $error){
+            return APIReturn::error('database_error');
+        }
+    }
+
+    public function degrade(Request $request){
+        $validator = \Validator::make($request->only('user_id'),[
+            'user_id' => 'required|numeric',
+        ]);
+        if($validator->fails()){
+            return APIReturn::error("Error");
+        }
+        try{
+            $user = User::where('user_id',$request->input('user_id'))
+                ->update(['admin' => 0]);
+            return APIReturn::success($user,'操作成功');
+        }catch (\Exception $error){
+            return APIReturn::error('database_error');
+        }
+    }
+
+
+    /**
+     * 禁用户
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function BannedUser(Request $request){
+        $validator = \Validator::make($request->only('user_id'),[
+            'user_id' => 'required|numeric',
+        ]);
+        if($validator->fails()){
+            //var_dump($validator->errors());
+            return APIReturn::error("Error");
+        }
+        try{
+            $user = User::where('user_id',$request->input('user_ud'))
+                ->update(['banned' => 1]);
+            return APIReturn::success($user,'操作成功');
+        }catch (\Exception $error){
+            return APIReturn::error('database_error');
+        }
+    }
+
+    /**
+     * 删除用户
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function DeleteUser(Request $request){
+        $validator = \Validator::make($request->only('user_id'),[
+            'user_id' => 'required|numeric',
+        ]);
+        if($validator->fails()){
+            return APIReturn::error("Error");
+        }
+        try{
+            $user = User::find($request->input('user_id'));
+            $user->delete();
+            return APIReturn::success($user,"操作成功");
+        }catch (\Exception $error){
+            return APIReturn::error("database_error");
+        }
+    }
+
+    public function CreateTestUser(){
+        try{
+            for ($i = 6;$i < 20; $i++){
+                $this->user->create([
+                    'email' => $i."@qq.com",
+                    'name' => "Test".$i,
+                    'password' => Hash::make($i),
+                    'signUpTime' => Carbon::now('Asia/Shanghai'),
+                    'lastLoginTime' => Carbon::now('Asia/Shanghai'),
+                    'token' => str_random(32),
+                ]);
+            }
+            return APIReturn::success(null,"创建测试用户成功");
+        }catch (\Exception $error){
+            echo $error;
+            return APIReturn::error("database_error");
+        }
+    }
+
+    /*public function test(Request $request){
+        echo $request->input('1231');
+    }*/
 }

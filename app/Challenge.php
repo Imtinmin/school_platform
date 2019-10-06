@@ -15,16 +15,22 @@ class Challenge extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'url', 'description','score'    //可控写入
+        'title', 'url', 'description','score','flag','category_name','category_id'    //可控写入
     ];
 
-    protected $hidden = [
-        'updated_at','created_at'
-    ];
+    /*protected $hidden = [
+        'updated_at','created_at','flag'
+    ];*/
 
     protected $attributes = [
         'url' => null,
     ];
+
+    protected $casts = [
+        //'email_verified_at' => 'datetime',
+        'score' => 'integer',
+    ];
+
 
 
 }

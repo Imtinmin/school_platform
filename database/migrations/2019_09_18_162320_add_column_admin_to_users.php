@@ -29,6 +29,8 @@ class AddColumnAdminToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
+            $table->dropColumn('admin');
+            $table->dropColumn('banned');
         });
     }
 }

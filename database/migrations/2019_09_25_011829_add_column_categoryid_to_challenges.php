@@ -28,6 +28,7 @@ class AddColumnCategoryidToChallenges extends Migration
     {
         Schema::table('challenges', function (Blueprint $table) {
             //
+            $table->dropColumn('category_id');
         });
     }
 }

@@ -58,13 +58,32 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $casts = [
+        'score' => 'integer',
+    ];
+    /*protected $casts = [
         //'email_verified_at' => 'datetime',
         'admin' => 'boolean',
         'banned' => 'boolean',
-    ];
+    ];*/
     protected $primaryKey = "user_id";
 
     public $timestamps = false;
 
+
+    public function test()
+    {
+        return $this->hasMany('App\Ctfachieve','user_id');
+    }
+
+
+    public function challenges(){
+        return $this->hasManyThrough(
+            'App\Challenge',    //target table
+            'App\Ctfachieve',   //through table
+            'user_id',          //user table Foreign key
+            'qid',           //ctfachieve table Foreign key
+            'user_id',          //local key on users
+            'qid');     //local key on ctfachieve
+    }
 
 }

@@ -1,0 +1,2 @@
+webpackJsonp([29],{280:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var l=t(387),o=t(65),r=o(null,l.a,!1,null,null,null);n.default=r.exports},387:function(e,n,t){"use strict";var l=function(){var e=this,n=e.$createElement;return(e._self._c||n)("div",{staticStyle:{"font-family":"Consolas, monospace",color:"#333","text-align":"center","line-height":"400px"}},[e._v("\n    Welcome to Admin Console!\n")])},o=[],r={render:l,staticRenderFns:o};n.a=r}});
+//# sourceMappingURL=29.js.map?25924257cabca7787bc1

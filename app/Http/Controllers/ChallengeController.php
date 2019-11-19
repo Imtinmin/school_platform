@@ -49,7 +49,7 @@ class ChallengeController extends Controller
             'category_id.required' => '缺少类型字段',
             'category_id.numeric' => '类型ID格式不符',
             'url.required' => '题目链接不能为空',
-            'url.url' => '题目格式不符',
+            'url.url' => '题目链接格式不符',
             'flag.required' => 'flag不能为空'
         ]);
 
@@ -93,7 +93,7 @@ class ChallengeController extends Controller
             });
                 return APIReturn::success($categories);
             }catch (\Exception $err){
-                echo $err;
+                //echo $err;
                 return APIReturn::error('database_error');
             }
         }catch (JWTException $err){
@@ -107,7 +107,7 @@ class ChallengeController extends Controller
             $rank = Ctfachieve::where('qid',$qid)->orderBy('AchieveTime')->get();
             return APIReturn::success($rank);
         }catch (\Exception $error){
-            echo $error;
+            //echo $error;
             return APIReturn::error("database_error");
         }
     }
@@ -169,31 +169,15 @@ class ChallengeController extends Controller
 
     }
 
-    public function CreateChallenge(){
-        try{
-            for ($i =0;$i<=50;$i++){
-                Challenge::create([
-                    'title' => 'test'.$i,
-                    'url' => '',
-                    'flag' => '1',
-                    'description' => 'test',
-                    'score' => 10,
-                    'category_id' => [1,2,3,4,5][array_rand([1,2,3,4,5])]
-                ]);
-            }
-            return APIReturn::success(null,"创建测试题目成功");
-
-        }catch (\Exception $err){
-            return APIReturn::error("database_error");
-        }
-    }
-
     public function solvedUsers(Request $request){
         $validator = \Validator::make($request->only(['qid']), [
             'qid' => 'required'
         ], [
             'qid.required' => '缺少 题目ID 字段'
         ]);
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
         $qid = $request->input('qid');
         if(!Challenge::find($qid)){
             return APIReturn::error('题目不存在',404);
@@ -214,10 +198,84 @@ class ChallengeController extends Controller
             return APIReturn::error("database_error",500);
         }
 
+    }
+
+    public function CreateChallenge(){
+        try{
+            for ($i =0;$i<=50;$i++){
+                Challenge::create([
+                    'title' => 'test'.$i,
+                    'url' => '',
+                    'flag' => '1',
+                    'description' => 'test',
+                    'score' => 10,
+                    'category_id' => [1,2,3,4,5][array_rand([1,2,3,4,5])]
+                ]);
+            }
+            return APIReturn::success(null,"创建测试题目成功");
+
+        }catch (\Exception $err){
+            return APIReturn::error("database_error");
+        }
+    }
+
+    public function DeleteChallenge(Request $request){
+        $validator = \Validator::make($request->only(['qid']), [
+            'qid' => 'required'
+        ], [
+            'qid.required' => '缺少 题目ID 字段'
+        ]);
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
+        try{
+            $challenge = Challenge::find($request->input('qid'));
+            //$ctfachieve = Ctfachieve::where('qid',$request->input('qid'));
+            $challenge->delete();
+            return APIReturn::success($challenge,"操作成功");
+        }catch (\Exception $error){
+            return APIReturn::error("database_error");
+        }
 
     }
 
+    public function UpdateChallenge(Request $request){
+        $validator = \Validator::make($request->all(),[
+            'title' => 'required',
+            'description' => 'required',
+            'score' => 'required|numeric',
+            'url' => 'required|url',
+            'flag' => 'required'
+        ],[
+            'title.required' => '名称不能为空',
+            'score.required' => '分数不能为空',
+            'description.required' => '说明不能为空',
+            'score.numeric' => '分数格式不符',
+            'url.required' => '题目链接不能为空',
+            'url.url' => '题目链接格式不符',
+            'flag.required' => 'flag不能为空'
+        ]);
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
+        try{
+            $challenge = Challenge::find($request->input('qid'));
+            if(!$challenge){
+                return APIReturn::error("题目不存在");
+            }
+            $challenge->title = $request->input('title');
+            $challenge->url = $request->input('url');
+            $challenge->description = $request->input('description');
+            $challenge->flag = $request->input('flag');
+            $challenge->score = $request->input('score');
+            $challenge->save();
+            return APIReturn::success($challenge);
+        }catch (\Exception $error){
+            //echo $error;
+            return APIReturn::error("database_error");
+        }
 
+    }
 
 
 }

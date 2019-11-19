@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Category;
 use Illuminate\Http\Request;
 use Carbon\Carbon;  //时间包
 use Auth;
@@ -162,8 +163,6 @@ class UserController extends Controller
         }catch (\Exception $err){
             return APIReturn::error("database_error");
         }
-
-
     }
 
     /**
@@ -183,7 +182,7 @@ class UserController extends Controller
             ]);
             //echo $user;
             if($validator->fails()){
-                return APIReturn::error($validator->errors());
+                return APIReturn::error($validator->errors()->all(dele));
             }
             try{
                 $user = User::find($userid);
@@ -223,7 +222,10 @@ class UserController extends Controller
             //$user = User::find($user_id);
             $user = User::where('user_id',$user_id)->get()->first();
             //echo $user->challenges;
-            $solvedChallenges = $user->challenges->makeHidden(['description','category_id','qid','laravel_through_key','url']);
+            $solvedChallenges = $user->challenges->makeHidden(['description','qid','laravel_through_key','url','updated_at','flag'])->each(function($item,$value){
+               $item->category_name = Category::find($item->category_id)->category_name;
+               $item->makeHidden(['category_id']);
+            });
             $data = ["name" => $user->name,"email" => $user->email,"score" => $user->score,'SolvedChallenges' => $solvedChallenges, "lastLoginTime" => $user->lastLoginTime];
             return APIReturn::success($data);
         }catch (\Exception $e){
@@ -333,7 +335,5 @@ class UserController extends Controller
         }
     }
 
-    /*public function test(Request $request){
-        echo $request->input('1231');
-    }*/
+
 }

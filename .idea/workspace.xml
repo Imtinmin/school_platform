@@ -1,65 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="569980c4-8bf1-405b-926d-1f0469d9ccc0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Chapter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Examination.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Examlog.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ChapterController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ExaminationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ExamlogController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/SelectChallengeController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/TaskController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/VideoController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/SelectChallenge.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Video.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_11_152736_add_column_to_courses.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_23_161304_add_column_to_chapter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_23_161644_add_column_to_video.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_26_080917_create_selectchallenge_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_034730_add_ppt_url_column_to_video_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_27_134627_drop_column_courseid_to_table_video.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_28_135546_add_columns_to_selectchallenge.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_10_30_151421_rename_selectchallenge_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_11_01_002052_create_examination_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_11_01_004333_create_examlog_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_11_16_012243_add_column_examid_to_choicequestion.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_11_17_035516_reanme_table_examination.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2019_11_18_073523_rename_table_examlog_and_add_column.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/28.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/28.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/29.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/29.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/30.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/30.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nginx/default" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Bulletin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Bulletin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Course.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Coursecategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Coursecategory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/BulletinController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/BulletinController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChallengeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChallengeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CourseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CoursecategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CoursecategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/EnableCrossRequestMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/EnableCrossRequestMiddleware.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_17_095020_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_17_095020_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_18_095029_create_question_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_18_095029_create_question_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_18_113334_rename_table_question.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_18_113334_rename_table_question.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_18_121018_rename_column_id_in_challenges.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_18_121018_rename_column_id_in_challenges.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_18_162320_add_column_admin_to_users.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_18_162320_add_column_admin_to_users.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_19_150024_create_categories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_19_150024_create_categories_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_20_163318_create_bulletin_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_20_163318_create_bulletin_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_25_010238_add_cloumn_categoryname_to_challenges.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_25_010238_add_cloumn_categoryname_to_challenges.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_25_011829_add_column_categoryid_to_challenges.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_25_011829_add_column_categoryid_to_challenges.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_25_164027_create_course_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_25_164027_create_course_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_29_145428_create_chapters_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_29_145428_create_chapters_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_29_150716_create_video_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_29_150716_create_video_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_29_160009_add_column_flag_to_challenges.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_29_160009_add_column_flag_to_challenges.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_30_022928_create_ctfachieve_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_30_022928_create_ctfachieve_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-    </list>
+    <list default="true" id="569980c4-8bf1-405b-926d-1f0469d9ccc0" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,7 +290,7 @@
       <workItem from="1573960909364" duration="4887000" />
       <workItem from="1573973168592" duration="16397000" />
       <workItem from="1574039350235" duration="15190000" />
-      <workItem from="1574123063393" duration="6950000" />
+      <workItem from="1574123063393" duration="7150000" />
     </task>
     <servers />
   </component>

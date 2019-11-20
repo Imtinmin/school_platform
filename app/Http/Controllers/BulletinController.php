@@ -30,7 +30,7 @@ class BulletinController extends Controller
             $newbulletin->save();
             return APIReturn::success($newbulletin,"添加成功");
         }catch (\Exception $err){
-            echo $err;
+            //echo $err;
             return APIReturn::error("database_error");
         }
     }

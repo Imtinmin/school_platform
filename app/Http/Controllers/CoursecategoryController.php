@@ -32,12 +32,58 @@ class CoursecategoryController extends Controller
         }
     }
 
+    public function delCategory(Request $request){
+        $validator = \Validator::make($request->all(),[
+            'category_id' => 'required',
+        ],[
+            'category_id.required' => '课程类别不能为空',
+        ]);
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
+        try{
+            if(!$courseCategory = Coursecategory::find($request->input('category_id'))){
+                return APIReturn::error("该类型不存在");
+            }
+            $courseCategory->delete();
+            return APIReturn::success(null,"删除成功");
+        }catch (\Exception $error){
+            //echo $error;
+            return APIReturn::error("database_error");
+        }
+    }
+
+    public function update(Request $request){
+        $validator = \Validator::make($request->all(),[
+            'category_id' => 'required',
+            'category_name' => 'required'
+        ],[
+            'category_id.required' => '课程类别不能为空',
+            'category_name.required' => '课程名不能为空',
+        ]);
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
+        try{
+            if(!$courseCategory = Coursecategory::find($request->input('category_id'))){
+                return APIReturn::error("该类型不存在");
+            }
+            $courseCategory->category_name = $request->input('category_name');
+            $courseCategory->save();
+            return APIReturn::success(null,"删除成功");
+        }catch (\Exception $error){
+            //echo $error;
+            return APIReturn::error("database_error");
+        }
+    }
+
+
     public function list(){
         try{
-            $CourseList = Coursecategory::with('course')->get()->makeHidden(['updated_at','created_at']);
+            $CourseList = Coursecategory::with('course')->get();
             return APIReturn::success($CourseList);
         }catch (\Exception $error){
-            echo $error;
+            //echo $error;
             return APIReturn::error("database_error");
         }
 
@@ -60,7 +106,7 @@ class CoursecategoryController extends Controller
             //$CourseList = Coursecategory::with('course')->get();
             return APIReturn::success($CourseList);
         }catch (\Exception $error){
-            echo $error;
+            //echo $error;
             return APIReturn::error("database_error");
         }
     }

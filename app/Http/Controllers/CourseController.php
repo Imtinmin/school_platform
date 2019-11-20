@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Video;
 use Illuminate\Http\Request;
 use App\Course;
 use App\Chapter;
@@ -11,16 +12,26 @@ use APIReturn;
 class CourseController extends Controller
 {
     //
+
+    /**
+     * 用户显示的课程列表
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function CourseList(){
         try{
             $allCourse = Course::with('category')->get()->makeHidden(['updated_at','created_at']);
             return APIReturn::success($allCourse);
         }catch (\Exception $error){
-            echo $error;
+            //echo $error;
             return APIReturn::error("database_error");
         }
     }
 
+    /**
+     * 课程信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function CourseInfo(Request $request){
         $validator = \Validator::make($request->all(),[
             'course_id' => 'required',
@@ -46,12 +57,17 @@ class CourseController extends Controller
             //echo $catalogue = Chapter::where('course_id',$request->input('course_id'))->get();
             return APIReturn::success($course);
         }catch (\Exception $error){
-            echo $error;
+            //echo $error;
             return APIReturn::error("database_error");
         }
     }
 
 
+    /**
+     * 添加课程
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function AddCourse(Request $request){
         $validator = \Validator::make($request->all(),[
             'courseName' => 'required',
@@ -83,6 +99,11 @@ class CourseController extends Controller
 
     }
 
+    /**
+     * 删除课程
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function DelCourse(Request $request){
         $validator = \Validator::make($request->all(),[
             'course_id' => 'required',
@@ -94,7 +115,16 @@ class CourseController extends Controller
         }
         try{
             $course_id = $request->input('course_id');
+            Chapter::where('course_id',$request->input('course_id'))->each(function($item,$value){
+                if(Video::where('chapter_id',$item->chapter_id)->first()){
+                    Video::where('chapter_id',$item->chapter_id)->delete();
+                }
+            });    //获取关联章节
             Course::find($course_id)->delete();
+            $chapter = Chapter::where('course_id',$request->input('course_id'));
+            if($chapter->first()){
+                $chapter->delete();
+            }
             return APIReturn::success(null, "delete success");
         }catch (\Exception $error){
             return APIReturn::error("database_error");
@@ -103,6 +133,10 @@ class CourseController extends Controller
 
     }
 
+    /**
+     * 创建测试课程
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function CreateTestCourse(){
         try{
             for ($i =0;$i<=20;$i++) {
@@ -115,12 +149,16 @@ class CourseController extends Controller
             }
             return APIReturn::success("创建测试课程成功");
         }catch (\Exception $err){
-            echo $err;
+            //echo $err;
             return APIReturn::error("database_error");
         }
-
     }
 
+    /**
+     * 修改课程信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function UpdateCourse(Request $request){
         $validator = \Validator::make($request->all(),[
             'course_id' => 'required',

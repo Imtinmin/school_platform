@@ -10,50 +10,7 @@ use APIReturn;
 class SelectChallengeController extends Controller
 {
     //
-    public function getChallenge(Request $request){
-/*
-        if(!$request->session()->has('StartTime')){
-            session(['StartTime' => time()]);
-            //return APIReturn::error("你还没开始答题");
-        }
-        $SurplusTime = 1800 - (time() - $request->session()->get('StartTime'));     //30分钟
-        $EndTime = 1800 + $request->session()->get('StartTime');
-        //echo $EndTime.PHP_EOL;
-        //echo time().PHP_EOL;
 
-        if(time() >= $EndTime){
-            return APIReturn::error("timeout");
-        }
-        $challenge = SelectChallenge::all()->makeHidden(['updated_at','created_at'])->each(function ($item,$value){
-            $item->options = [
-                $item->option1,
-                $item->option2,
-                $item->option3,
-                $item->option4
-            ];
-        })->makeHidden(['option1','option2','option3','option4']);
-        $data = [
-          //'SurplusTime' => $SurplusTime
-            'EndTime' => $EndTime,
-            'Challenge' => $challenge
-        ];
-        return APIReturn::success($data);*/
-    }
-
-
-    /*public function is_start(Request $request){
-        if(!$request->session()->has('StartTime')) {
-            return APIReturn::error("no_yet");
-        }else{
-            return APIReturn::success("is_start");
-        }
-    }*/
-
-
-    /*public function reset(Request $request){                          //重置session
-        $request->session()->forget('StartTime');
-        return APIReturn::success("ResetStatus");
-    }*/
 
     public function addChoiceQuestionToExam(Request $request)
     {
@@ -87,11 +44,76 @@ class SelectChallengeController extends Controller
             }
             return APIReturn::success(null,"添加成功");
         }catch (\Exception $error){
-            echo $error;
-            //return APIReturn::error("database_error");
+            //echo $error;
+            return APIReturn::error("database_error");
         }
     }
 
+
+    public function updateChoiceQuestion(Request $request)
+    {
+        $validator = \Validator::make($request->all(),[
+            'title' => 'required',
+            'id' => 'required',
+            'option1' => 'required',
+            'option2' => 'required',
+            'option3' => 'required',
+            'option4' => 'required',
+            'answer' => 'required'
+        ],[
+            'title.required' => '缺少题目字段',
+            'examID.required' => '缺少题目ID',
+            'option1.required' => '缺少选项1字段',
+            'option2.required' => '缺少选项2字段',
+            'option3.required' => '缺少选项3字段',
+            'option4.required' => '缺少选项4字段',
+            'answer.required' => '缺少答案字段'
+        ]);
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
+        try{
+            $choice_question = SelectChallenge::find($request->input('id'));
+            $choice_question->title = $request->input('title');
+            $choice_question->option1 = $request->input('option1');
+            $choice_question->option2 = $request->input('option2');
+            $choice_question->option3 = $request->input('option3');
+            $choice_question->option4 = $request->input('option4');
+            $choice_question->answer = $request->input('answer');
+            $choice_question->save();
+            return APIReturn::success($choice_question,"更改成功");
+        }catch (\Exception $error){
+            return APIReturn::error("database_error");
+        }
+    }
+
+    /**
+     * 删除选择题
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function delChoiceQuestionFromExam(Request $request)
+    {
+        $validator = \Validator::make($request->all(),[
+            'id' => 'required',
+        ],[
+            'id.required' => '缺少题目ID字段',
+        ]);
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
+        try{
+            if(!$choice_question = SelectChallenge::find($request->input('id'))){
+                return APIReturn::error("不存在这个题目");
+            }
+            $choice_question->delete();
+            return APIReturn::success(null,"删除成功");
+        }catch (\Exception $error){
+            return APIReturn::error("database_error");
+        }
+
+
+    }
 
 
     public function CreateTestSelectChallenge(){

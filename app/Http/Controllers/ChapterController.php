@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Video;
 use Illuminate\Http\Request;
 use App\Chapter;
 use App\Course;
@@ -52,13 +53,12 @@ class ChapterController extends Controller
         if($validator->fails()){
             return APIReturn::error($validator->errors()->all());
         }
+
         try{
-            if (!Course::find($request->input('course_id'))) {
-                return \APIReturn::error("课程不存在");
-            }
             if(!$chapter = Chapter::find($request->input('chapter_id'))){
-                return APIReturn::error("章节不存在");
+                return \APIReturn::error("章节不存在");
             }else{
+                Video::where('chapter_id',$request->input('chapter_id'))->delete();
                 $chapter->delete();
                 return APIReturn::success($chapter,"删除成功");
             }

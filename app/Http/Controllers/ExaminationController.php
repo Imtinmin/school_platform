@@ -143,10 +143,6 @@ class ExaminationController extends Controller
     }
 
 
-    /*public function test(){
-        var_dump(Examination::where('chapter_id',1)->first());
-    }*/
-
 
     //admin
     public function ExamList()
@@ -226,7 +222,9 @@ class ExaminationController extends Controller
             if(!$exam = Examination::find($request->examID)){
                 return APIReturn::error("不存在这个测验");
             }
+            $choice_question = SelectChallenge::where('exam_id',$request->examID);
             $exam->delete();
+            $choice_question->delete();
             return APIReturn::success("删除成功");
         }catch (\Exception $err){
             return APIReturn::error("database_error");

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Challenge;
 use Illuminate\Http\Request;
 use App\Category;
+use App\Ctfachieve;
 use APIReturn;
+use function foo\func;
 
 
 class CategoryController extends Controller
@@ -58,15 +61,16 @@ class CategoryController extends Controller
         if($validator->fails()){
             return APIReturn::error($validator->errors()->all());
         }
-        $this->category->destroy($request->input('category_id'));
         try{
-            $this->category::where('category_id', $request->input('category_id'))->delete();
+            Category::where('category_id', $request->input('category_id'))->delete();
+            Challenge::where('category_id',$request->input('category_id'))->each(function($item,$key){
+                Ctfachieve::where('qid',$item->qid)->delete();
+            });
+            return APIReturn::success(null,"删除成功");
         }catch (\Exception $err){
             return APIReturn::error('database_error');
 
         }
-        return APIReturn::success();
-
     }
 
     /**
@@ -92,8 +96,8 @@ class CategoryController extends Controller
      */
     public function list(Request $request){
         try{
-            $CategoryList = $this->category::with('challenges')->get();
-            $CategoryList->makeHidden(['updated_at','created_at']);
+            $CategoryList = Category::all();
+            //$CategoryList->makeHidden(['updated_at','created_at']);
         }catch (\Exception $err){
             return APIReturn::error('database_error');
         }

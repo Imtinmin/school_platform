@@ -44,8 +44,8 @@ class VideoController extends Controller
             $newVideo->save();
             return APIReturn::success($newVideo);
         }catch (\Exception $error){
-            echo $error;
-            //return APIReturn::error("database_error");
+            //echo $error;
+            return APIReturn::error("database_error");
         }
     }
 
@@ -59,7 +59,7 @@ class VideoController extends Controller
             return APIReturn::error($validator->errors()->all());
         }
         try{
-            $video = $request->input('video_id');
+            $video = Video::find($request->input('video_id'));
             $video->delete();
             return APIReturn::success("删除成功");
         }catch (\Exception $error){

@@ -113,8 +113,11 @@ class ChallengeController extends Controller
     }
 
 
-
-
+    /**
+     * 提交答案
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function SubmitFlag(Request $request){
         $validator = \Validator::make($request->all(),[
             'qid' => 'required',
@@ -169,6 +172,11 @@ class ChallengeController extends Controller
 
     }
 
+    /**
+     * 解决人数
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function solvedUsers(Request $request){
         $validator = \Validator::make($request->only(['qid']), [
             'qid' => 'required'
@@ -194,7 +202,7 @@ class ChallengeController extends Controller
             });
             return APIReturn::success($result);
         }catch(\Exception $error){
-            echo $error;
+            //echo $error;
             return APIReturn::error("database_error",500);
         }
 
@@ -219,6 +227,11 @@ class ChallengeController extends Controller
         }
     }
 
+    /**
+     * 删除题目
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function DeleteChallenge(Request $request){
         $validator = \Validator::make($request->only(['qid']), [
             'qid' => 'required'
@@ -230,8 +243,9 @@ class ChallengeController extends Controller
         }
         try{
             $challenge = Challenge::find($request->input('qid'));
-            //$ctfachieve = Ctfachieve::where('qid',$request->input('qid'));
+            $ctfachieve = Ctfachieve::where('qid',$request->input('qid'));  //删除该题解题记录
             $challenge->delete();
+            $ctfachieve->delete();
             return APIReturn::success($challenge,"操作成功");
         }catch (\Exception $error){
             return APIReturn::error("database_error");
@@ -239,6 +253,11 @@ class ChallengeController extends Controller
 
     }
 
+    /**
+     * 更改题目
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
     public function UpdateChallenge(Request $request){
         $validator = \Validator::make($request->all(),[
             'title' => 'required',

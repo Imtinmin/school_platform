@@ -149,7 +149,7 @@ class UserController extends Controller
             $result->makeHidden(['token', 'admin', 'banned', 'lastLoginTime', 'signUpTime', 'email']);
             $total = User::where([['admin', '0'], ['banned', '0']])->count();
             } catch (\Exception $err) {
-                echo $err;
+                //echo $err;
                 return APIReturn::error('database_error');
             }
             return APIReturn::success(['total' => $total,'ranking' => $result]);
@@ -330,7 +330,7 @@ class UserController extends Controller
             }
             return APIReturn::success(null,"创建测试用户成功");
         }catch (\Exception $error){
-            echo $error;
+            //echo $error;
             return APIReturn::error("database_error");
         }
     }

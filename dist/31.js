@@ -1,0 +1,2 @@
+webpackJsonp([31],{266:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var r=t(380),u=t(65),l=u(null,r.a,!1,null,null,null);n.default=l.exports},380:function(e,n,t){"use strict";var r=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[t("center",[t("h1",[e._v("404 Not Found")])]),e._v(" "),t("hr"),t("center",[e._v("vue/2.6.10")])],1)},u=[],l={render:r,staticRenderFns:u};n.a=l}});
+//# sourceMappingURL=31.js.map?314e5e503a0ba719c94d

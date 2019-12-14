@@ -195,10 +195,13 @@ class ChallengeController extends Controller
             $result = [];
 
             $logs->each(function ($log) use (&$result){
+		if(!$log->users->admin){
                 array_push($result,[
                     'name' => $log->users->name,
                     'solvedAt' => $log->AchieveTime,
                 ]);
+		}
+
             });
             return APIReturn::success($result);
         }catch(\Exception $error){

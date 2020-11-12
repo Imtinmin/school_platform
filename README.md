@@ -52,6 +52,7 @@ server {
 
 ```
 php artisan migrate  #建表
+php artisan jwt:secret
 php artisan serve	#启动
 ```
 

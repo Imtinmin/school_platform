@@ -186,8 +186,11 @@ return [
         /*
          * Ide helper Service Provider
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class
-
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        /*
+         *
+         */
+        Mews\Captcha\CaptchaServiceProvider::class,
     ],
 
     /*
@@ -247,6 +250,10 @@ return [
          * APIReturn
          */
         'APIReturn' => App\Facades\APIReturnFacade::class,
+        /*
+         * Captcha
+         */
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 
 ];

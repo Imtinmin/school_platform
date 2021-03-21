@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bulletin;
-use App\User;
 use APIReturn;
 
 class BulletinController extends Controller

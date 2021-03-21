@@ -137,7 +137,7 @@ class CourseController extends Controller
      * 创建测试课程
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function CreateTestCourse(){
+    /*public function CreateTestCourse(){
         try{
             for ($i =0;$i<=20;$i++) {
                 Course::create([
@@ -152,7 +152,7 @@ class CourseController extends Controller
             //echo $err;
             return APIReturn::error("database_error");
         }
-    }
+    }*/
 
     /**
      * 修改课程信息
@@ -189,7 +189,8 @@ class CourseController extends Controller
                 return APIReturn::success($course,"修改成功");
             }
         }catch (\Exception $error){
-                return APIReturn::error("database_error");
+                return APIReturn::error($error);
+                //return APIReturn::error("database_error");
         }
     }
 

@@ -62,6 +62,9 @@ class CategoryController extends Controller
             return APIReturn::error($validator->errors()->all());
         }
         try{
+            if(!$category = Category::find($request->input('category_id'))){
+                return APIReturn::error("该题目类型不存在");
+            }
             Category::where('category_id', $request->input('category_id'))->delete();
             Challenge::where('category_id',$request->input('category_id'))->each(function($item,$key){
                 Ctfachieve::where('qid',$item->qid)->delete();
@@ -80,12 +83,27 @@ class CategoryController extends Controller
      */
     public function edit(Request $request){
         $validator = \Validator::make($request->all(),[
+            'category_id' => 'required',
             'category_name' => 'required|unique:categories',
         ],[
+            'category_id.required' => '类型ID不能为空',
             'category_name.required' => '类型字段不能为空',
             'category_name.unique' => '类型字段已存在',
         ]);
 
+        if($validator->fails()){
+            return APIReturn::error($validator->errors()->all());
+        }
+        try {
+            if(!$category = Category::find($request->input('category_id'))){
+                return APIReturn::error("该题目类型不存在");
+            }
+            $category->category_name = $request->input("category_name");
+            $category->save();
+            return APIReturn::success("修改成功");
+        }catch (\ErrorException $err){
+            return APIReturn::error("database_error");
+        }
     }
 
 

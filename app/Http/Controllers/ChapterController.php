@@ -39,8 +39,6 @@ class ChapterController extends Controller
         } catch (\Exception $error) {
             return APIReturn::error("database_error");
         }
-
-
     }
 
     public function delete(Request $request)
@@ -65,7 +63,6 @@ class ChapterController extends Controller
         }catch (\Exception $error){
             return APIReturn::error("database_error");
         }
-
     }
 
     public function update(Request $request)

@@ -66,7 +66,6 @@ class ChallengeController extends Controller
             $newChallenge->description = $request->input('description');
             $newChallenge->score = $request->input('score');
             $newChallenge->category_id = $request->input('category_id');
-            //$newChallenge->category_name = Category::find($request->input('category_id'))->category_name;
             $newChallenge->url = $request->input('url');
             $newChallenge->flag = $request->input('flag');
             $newChallenge->save();
@@ -205,13 +204,12 @@ class ChallengeController extends Controller
             });
             return APIReturn::success($result);
         }catch(\Exception $error){
-            //echo $error;
             return APIReturn::error("database_error",500);
         }
 
     }
 
-    public function CreateChallenge(){
+    /*public function CreateChallenge(){
         try{
             for ($i =0;$i<=50;$i++){
                 Challenge::create([
@@ -228,7 +226,7 @@ class ChallengeController extends Controller
         }catch (\Exception $err){
             return APIReturn::error("database_error");
         }
-    }
+    }*/
 
     /**
      * 删除题目

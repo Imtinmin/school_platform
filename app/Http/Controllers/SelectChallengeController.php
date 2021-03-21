@@ -20,7 +20,7 @@ class SelectChallengeController extends Controller
         ],[
             'data.required' => '缺少题目字段',
             'data.array' => '题目字段格式不符',
-            'examID.required' => '缺少测试ID'
+            'examID.required' => '缺少测验ID'
         ]);
         if($validator->fails()){
             return APIReturn::error($validator->errors()->all());
@@ -116,7 +116,7 @@ class SelectChallengeController extends Controller
     }
 
 
-    public function CreateTestSelectChallenge(){
+    /*public function CreateTestSelectChallenge(){
         try{
             for ($i =0;$i<=20;$i++) {
                 SelectChallenge::create([
@@ -132,7 +132,7 @@ class SelectChallengeController extends Controller
         }catch (\Exception $error){
             return APIReturn::error("database_error");
         }
-    }
+    }*/
 
 
 

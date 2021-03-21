@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;  //时间包
 use Auth;
 use App\User;
-use App\Ctfachieve;
+use Mews\Captcha\Captcha;
 use Illuminate\Support\Facades\Hash;
 use APIReturn;
 use JWTAuth;
@@ -36,13 +36,14 @@ class UserController extends Controller
      * @author tinmin
      */
     public function register(Request $request){
-        $input = $request->only('email','name','password');
+        $input = $request->only('email','name','password','captcha','key');
         $validator = \Validator::make($input,[
            'email' => 'required|email|unique:users',
            'name' => 'required|max:30|unique:users',
            'password' => 'required|max:64|min:8',
+            'captcha' => 'required'
         ],[
-            'email.required' => '缺少邮箱字段',
+            'email.required' => 'email is empty',
             'email.email' => '邮箱格式不符',
             'email.unique' => '该邮箱已被注册',
             'name.required' => '缺少用户名字段',
@@ -50,13 +51,17 @@ class UserController extends Controller
             'name.unique' => '用户名已被注册',
             'password.required' => '缺少密码字段',
             'password.max' => '密码太长',
-            'password.min' => '密码至少8位'
+            'password.min' => '密码至少8位',
+            'captcha.required' => '验证码不能为空'
 
         ]);
+
         if($validator->fails()){
             return APIReturn::error($validator->errors()->all());
         }
-
+        if(!captcha_api_check($input['captcha'],base64_decode($input['key']))){
+            return APIReturn::error('验证码错误');
+        }
         try {
             $this->user->create([
                 'email' => $input['email'],
@@ -107,7 +112,6 @@ class UserController extends Controller
         }else{
             return APIReturn::error("invalid_email_or_password",401);
         }
-
     }
 
     /**
@@ -144,7 +148,6 @@ class UserController extends Controller
 
         $page = $request->input('page') ?? 1;
         try {
-            //$result = User::where([['admin', '0'], ['banned', '0']])->orderBy('score','desc')->get();
             $result = User::where([['admin', '0'], ['banned', '0']])->orderBy('score','desc')->skip(($page-1)*10)->take(10)->get();
             $result->makeHidden(['token', 'admin', 'banned', 'lastLoginTime', 'signUpTime', 'email']);
             $total = User::where([['admin', '0'], ['banned', '0']])->count();
@@ -173,25 +176,24 @@ class UserController extends Controller
     public function ResetPassword(Request $request){
         try{
             $user = JWTAuth::parseToken()->toUser();
-            $userid = $user->user_id;
             $validator = \Validator::make($request->all(),[
                 'newpassword' => 'required|min:8',
             ],[
                 'newpassword.required' => '密码字段不能为空',
                 'newpassword.min' => '密码至少8位'
             ]);
-            //echo $user;
+
             if($validator->fails()){
                 return APIReturn::error($validator->errors()->all(dele));
             }
             try{
-                $user = User::find($userid);
-                $user->password = Hash::make($request->input('newpassword'));
 
+                $user->password = Hash::make($request->input('newpassword'));
+                $user->save();
             }catch (\Exception $err){
                 return APIReturn::error('database_error');
             }
-            return APIReturn::success($user);
+            return APIReturn::success();
         }catch (JWTException $err){
             return APIReturn::error('token_invalid');
         }
@@ -316,7 +318,12 @@ class UserController extends Controller
         }
     }
 
-    public function CreateTestUser(){
+    public function captcha(Request $request, Captcha $captcha){
+
+        $data = app('captcha')->create('default',true);
+        return APIReturn::success(["key" => $data["key"],"img" => $data["img"]]);
+    }
+    /*public function CreateTestUser(){
         try{
             for ($i = 6;$i < 20; $i++){
                 $this->user->create([
@@ -333,7 +340,7 @@ class UserController extends Controller
             //echo $error;
             return APIReturn::error("database_error");
         }
-    }
+    }*/
 
 
 }

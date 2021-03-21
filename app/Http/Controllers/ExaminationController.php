@@ -80,7 +80,7 @@ class ExaminationController extends Controller
         }catch (JWTException $err){
             return APIReturn::error('token_invalid',401);
         }
-        if($request->session()->get('StartTime') + 1800 < time()){
+        if($request->session()->get('StartTime') + 1800 > time()){
             return APIReturn::error("timeout",403,null);
         }
 
@@ -229,7 +229,6 @@ class ExaminationController extends Controller
         }catch (\Exception $err){
             return APIReturn::error("database_error");
         }
-
     }
 
 

@@ -11,13 +11,17 @@ use App\Chapter;
 class VideoController extends Controller
 {
     //
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function add(Request $request){
         $validator = \Validator::make($request->all(),[
             'title' => 'required',
             'url' => 'required|url',
             'chapter_id' => 'required',
             'content' => 'required',
-            //'ppt_url' => 'url',
+            'ppt_url' => 'nullable|url',
             'order_num' => 'required|numeric'
         ],[
             'title.required' => '名称不能为空',
@@ -25,7 +29,7 @@ class VideoController extends Controller
             'url.url' => '视频链接格式不符',
             'chapter_id.required' => '章节ID不能为空',
             'content.required' => '视频介绍不能为空',
-            //'ppt_url.url' => 'ppt链接格式不符',
+            'ppt_url.url' => 'ppt链接格式不符',
             'order_num.required' => '序号字段不能为空',
             'order_num.numeric' => '序号格式不对'
         ]);
@@ -33,7 +37,9 @@ class VideoController extends Controller
             return APIReturn::error($validator->errors()->all());
         }
         try{
-            if(Course::where('chapter_id'))
+            if(!Chapter::where('chapter_id')){
+                return APIReturn::error("章节不存在");
+            }
             $newVideo = new Video();
             $newVideo->title = $request->input('title');
             $newVideo->url = $request->input('url');
@@ -44,7 +50,6 @@ class VideoController extends Controller
             $newVideo->save();
             return APIReturn::success($newVideo);
         }catch (\Exception $error){
-            //echo $error;
             return APIReturn::error("database_error");
         }
     }
@@ -98,6 +103,5 @@ class VideoController extends Controller
         }catch (\Exception $error){
             return APIReturn::error("database_error");
         }
-
     }
 }

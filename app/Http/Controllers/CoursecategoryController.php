@@ -94,19 +94,14 @@ class CoursecategoryController extends Controller
         try{
             $CourseList = Coursecategory::with('course')->get()->each(function ($item,$value){
                 $item->course->each(function ($item,$value){
-                    //$item->chapter = Course::find($item->course_id)->chapter;
                     $item->chapter = Chapter::where('course_id',$item->course_id)->orderBy('order_num')->get();
                     $item->chapter->each(function ($item,$value){
-                       //$item->video = Chapter::find($item->chapter_id)->video;
                         $item->video = Video::where('chapter_id',$item->chapter_id)->orderBy('order_num')->get();
                     });
-                    //echo $item->course_id;
                 });
             });
-            //$CourseList = Coursecategory::with('course')->get();
             return APIReturn::success($CourseList);
         }catch (\Exception $error){
-            //echo $error;
             return APIReturn::error("database_error");
         }
     }

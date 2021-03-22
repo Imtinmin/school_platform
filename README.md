@@ -1,6 +1,7 @@
 # school_platform
 用laravel编写的学校练习平台 
 
+参考[hctfbackend](https://github.com/vidar-team/hctf_backend)
 
 
 ## 使用
